@@ -1,0 +1,125 @@
+{% extends 'sistemaAcademico/inicio.html' %}
+{% load staticfiles %}
+
+  {% block extracss %}
+
+         <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+  {% endblock extracss %}
+
+{% block contenido_principal %}
+
+<header class="cuadro_titulo"> <h4 class="title"> Configuracion | Menu</h4></header>
+
+<br/><br/>
+     <button onclick="crear_modal('{% url 'Academico:nuevo_menu' %}')" class="btn btn-outline-primary"  id="registrar"><span class="glyphicon glyphicon-plus"></span>nuevo
+</button>
+<br/><br/>
+
+<div class="card-body">
+<div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" data-page-length='25' onloadeddata="traducir()">
+                  <thead>
+                    <tr>
+                      <th>Modulo</th>
+                      <th>Estado</th>
+                      <th>Nombre del menu</th>
+                      <th>Tipo</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+
+
+                  <tbody>
+
+                  {% for m in menu %}
+                     {% if m.id_padre == 0 %}
+                          <tr>
+                            <td><strong>{{m.id_modulo}}</strong></td>
+                            <td><strong>{{m.id_genr_estado}}</strong></td>
+                            <td><strong>{{m.descripcion}}</strong></td>
+                            <td><strong>Menu principal</strong></td>
+                            <td>
+                               <a href="{% url 'Academico:editar_menu' m.id_menu %}" class="btn-info btn-circle" title="Editar {{m.descripcion}}"><i class="fas fa-info-circle"></i></a>
+                               <a href="#" class="btn btn-danger btn-circle" title="Eliminar {{m.descripcion}}"><i class="fas fa-trash"></i></a>
+                               <a href="#opcion_{{m.id_menu}}" data-toggle="collapse" role="button"  aria-dropeffect="link" aria-controls="opcion_{{m.id_menu}}" class="btn btn-success btn-circle" title="Ver contenido de {{m.descripcion}}"><i class="fas fa-arrow-down"></i></a>
+                          </td>
+                    </tr>
+                      {% endif %}
+                    
+                  {% endfor %}
+
+                  {% for h in menu %}
+
+                  {% if h.id_padre != 0 %}
+                  <tr id="opcion_{{h.id_padre}}" class="collapse" aria-expanded="false">
+                      <td>{{h.id_modulo}}</td>
+                      <td>{{h.id_genr_estado}}</td>
+                      <td>{{h.descripcion}}</td>
+                      <td>Opcion del menu {{h.id_modulo}}</td>
+                      <td>
+                          <button onclick="editar_modal('{% url 'Academico:editar_menu' h.id_menu %}')" class="btn-info btn-circle" title="Editar {{h.descripcion}}"><i class="fas fa-info-circle"></i></button>
+                         <a href="#" class="btn btn-danger btn-circle" title="Eliminar {{h.descripcion}}"><i class="fas fa-trash"></i></a>
+                         <a href="{% url h.url %}" class="btn btn-success btn-circle" title="Ver contenido de {{h.descripcion}}"><i class="fas fa-arrow-right"></i> </a>
+                      </td>
+                  </tr>
+                  {% endif %}
+
+                  {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+  
+    <script type="text/javascript">
+
+     function crear_modal(url){
+
+        var $ = jQuery.noConflict();
+
+        $('#crear').load(url, function(){
+            $(this).modal('show');
+        });
+    }
+
+     function editar_modal(url){
+
+        var $ = jQuery.noConflict();
+
+        $('#editar_menu').load(url, function(){
+            $(this).modal('show');
+        });
+    }
+
+    </script>
+
+{% endblock contenido_principal %}
+
+
+{% block extrajs %}
+
+
+<div class="modal fade" id="crear" role="dialog">
+
+
+</div>
+
+<div class="modal fade" id="editar_menu" role="dialog">
+
+
+</div>
+
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js'%}">
+
+ 
+
+  </script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js'%}"></script>
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+
+{% endblock extrajs %}
+
+

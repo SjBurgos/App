@@ -1,0 +1,46 @@
+{% extends 'sistemaAcademico/inicio.html' %}
+
+	{% block contenido_principal %}
+
+<header class="cuadro_titulo">
+    <h3>Configuracion / Permisos</h3>
+</header>
+<br/>
+
+     <a href="" class="btn btn-success"  id="registrar"><span class="glyphicon glyphicon-plus"></span>nuevo
+</a>
+<br/><br/>
+</table>
+<table class="table table-striped">
+<tr class="success">
+<td>Id</td>
+<td>Menu</td>
+<td>Usuario</td>
+<td>Modulo</td>
+<td>estado</td>
+    <td>Acciones</td>
+</tr>
+{% for p in permisos %}
+<tr>
+<td>{{ p.id_permiso }}</td>
+<td>{{ p.id_menu }}</td>
+<td>{{ p.id_modulo }}</td>
+<td>{{ p.id_genr_estado}}</td>
+
+	<td class="btn btn-info"><span class="glyphicon glyphicon-pencil"></span></td>
+		<td class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></td>
+</tr>
+{% endfor %}
+</table>
+{% endblock contenido_principal %}
+
+
+
+
+
+
+
+
+
+
+
